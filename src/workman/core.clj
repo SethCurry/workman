@@ -18,16 +18,8 @@
   })
 
 (def routes [
-  {
-    :method :get
-    :uri "/"
-    :handler handler
-  }
-  {
-    :method :get
-    :uri "/users/:id"
-    :handler id-handler
-  }
+                 (http/->Route :get "/" handler)
+                 (http/->Route :get "/users/:id" id-handler)
 ])
 
 (defn -main

@@ -4,6 +4,8 @@
 ; route object
 ; {:method :get :uri "/test" :handler (fn)}
 
+(defrecord Route [method uri handler])
+
 (defn split-request-uri
   "Splits a request uri; requires a map with a :uri key"
   [request]
@@ -33,7 +35,7 @@
 
 (defn- is-uri-keyword [s] (string/starts-with? s ":"))
 
-(defn- parse-uri-keyword [s] ((keyword (subs s 1))))
+(defn- parse-uri-keyword [s] (keyword (subs s 1)))
 
 (defn- parse-uri-param [k v]
   (if (is-uri-keyword k)
