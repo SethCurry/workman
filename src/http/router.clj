@@ -7,6 +7,7 @@
 ; {:method :get :uri "/test" :handler (fn)}
 
 (defn split-request-uri
+  "Splits a request uri; requires a map with a :uri key"
   [request]
   (drop 1 (string/split (get request :uri) #"/")))
   
