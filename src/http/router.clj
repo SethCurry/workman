@@ -4,11 +4,11 @@
 (use 'taoensso.timbre)
 
 ; route object
-; {:method :get :path "/test" :handler (fn)}
+; {:method :get :uri "/test" :handler (fn)}
 
-(defn split-uri
+(defn split-request-uri
   [request]
-  (string/split (get request :uri) #"/"))
+  (drop 1 (string/split (get request :uri) #"/")))
   
 (defn uris-equal?
   [pattern req]
@@ -54,7 +54,7 @@
       (if
         (and
           (= (get x :method) (get request :request-method))
-          (uris-equal? (split-uri x) (split-uri request)))
+          (uris-equal? (split-request-uri x) (split-request-uri request)))
         true
         false))
     routes)))
@@ -76,4 +76,4 @@
         ((get r :handler)
           (into
             request
-            {:uri-params (get-params (split-uri r) (split-uri request))}))))))
+            {:uri-params (get-params (split-request-uri r) (split-request-uri request))}))))))
