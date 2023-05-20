@@ -4,17 +4,29 @@
 (use 'http.router)
 
 (defn handler [request]
-    {
-     :status 200
-     :headers {"Content-Type" "text/html"}
-     :body "Hello World"
-    })
+  {
+    :status 200
+    :headers {"Content-Type" "text/html"}
+    :body "Hello World"
+  })
+
+(defn id-handler [request]
+  {
+    :status 200
+    :headers {"Content-Type" "text/html"}
+    :body (str "Hello user " (get (get request :uri-params) :id))
+  })
 
 (def routes [
   {
     :method :get
     :uri "/"
     :handler handler
+  }
+  {
+    :method :get
+    :uri "/users/:id"
+    :handler id-handler
   }
 ])
 
