@@ -31,31 +31,41 @@
       false)
     false))
 
+(defn- is-uri-keyword [s] (string/starts-with? s ":"))
+
+(defn- parse-uri-keyword [s] ((keyword (subs s 1))))
+
+(defn- parse-uri-param [k v]
+  (if (is-uri-keyword k)
+    {(parse-uri-keyword k) v}
+    {}))
+
 (defn get-params
   [pattern req]
   (into
     {}
     (map
-      (fn
-        [p r]
-        (if
-          (string/starts-with? p ":")
-          {(keyword (subs p 1)) r}
-          {}
-        ))
-      pattern
-      req)))
+     parse-uri-param
+     pattern
+     req)))
+
+(defn- method-matches?
+  [route request]
+  (= (get route :method) (get request :request-method)))
+
+(defn- route-matches?
+  [request]
+  (fn [x]
+    (if (and
+         (method-matches? x request)
+         (uris-equal? (split-request-uri x) (split-request-uri request)))
+         true
+         false)))
 
 (defn find-route
   [routes request]
   (first (filter
-    (fn [x]
-      (if
-        (and
-          (= (get x :method) (get request :request-method))
-          (uris-equal? (split-request-uri x) (split-request-uri request)))
-        true
-        false))
+          (route-matches? request)
     routes)))
 
 (defn not-found
