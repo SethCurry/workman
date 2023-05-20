@@ -1,8 +1,6 @@
 (ns http.router
   (:require [clojure.string :as string]))
 
-(use 'taoensso.timbre)
-
 ; route object
 ; {:method :get :uri "/test" :handler (fn)}
 

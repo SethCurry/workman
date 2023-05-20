@@ -1,7 +1,7 @@
-(ns workman.core)
-
-(use 'ring.adapter.jetty)
-(use 'http.router)
+(ns workman.core
+  (:require
+   [ring.adapter.jetty :as jetty]
+   [http.router :as http]))
 
 (defn handler [request]
   {
@@ -32,6 +32,6 @@
 
 (defn -main
     []
-    (run-jetty (router routes) {
+    (jetty/run-jetty (http/router routes) {
         :port 3000
     }))

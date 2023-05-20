@@ -2,3 +2,6 @@
 /.lein-repl-history
 /.nrepl-port
 /.lein-failures
+/.lsp
+/.clj-kondo
+/.calva

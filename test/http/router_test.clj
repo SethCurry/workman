@@ -1,7 +1,8 @@
-(ns http.router-test)
-(use 'clojure.test)
-(use 'http.router)
+(ns http.router-test
+  (:require
+   [http.router :as http]
+   [clojure.test :as test]))
 
-(deftest split-uri-basic
-  (testing "split-request-uri basic"
-    (is (= (split-request-uri {:uri "/some/random/uri"}) ["some" "random" "uri"]))))
+(test/deftest split-uri-basic
+  (test/testing "split-request-uri basic"
+    (test/is (= (http/split-request-uri {:uri "/some/random/uri"}) ["some" "random" "uri"]))))
