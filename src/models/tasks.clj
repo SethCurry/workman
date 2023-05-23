@@ -1,6 +1,7 @@
 (ns models.tasks
   (:require [clojure.java.jdbc :as jdbc]
-            [honeysql.core :as sql]))
+            [honeysql.core :as sql]
+            [models.core :only [defmodel]]))
 
 (def db
   {:classname   "org.sqlite.JDBC"
@@ -11,7 +12,7 @@
   []
   (jdbc/execute! db "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, body TEXT, status TEXT)"))
 
-(defrecord Task [id name body status])
+(models.core/defmodel Task [id name body status])
 
 (defn- db-create
   [name body status]
